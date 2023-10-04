@@ -1,11 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.IO;
-using System.Net.NetworkInformation;
-using System.Diagnostics;
 
 namespace shortcutCreator
 {
@@ -25,23 +19,23 @@ namespace shortcutCreator
                     continue;
 
                 string fileName = Path.GetFileName(sourceFile);
-                var fileFullPath = FileUtilities.GetFileFullPath(fileName, AllFilesInDestDir);
+                var filePathInDestination = FileUtilities.GetFileFullPath(fileName, AllFilesInDestDir);
                 
-                if (fileFullPath == null) continue;
+                if (filePathInDestination == null) continue;
 
                 FileUtilities.CreateShortcut(fileName,
                     Path.GetDirectoryName(sourceFile),
-                    fileFullPath
+                    filePathInDestination
                 );
 
                 Console.WriteLine($@"Deleting file {sourceFile}");
                 try
                 {
-                    System.IO.File.Delete(sourceFile);
+                    File.Delete(sourceFile);
                 }
                 catch (Exception ex)
                 {
-                    Console.WriteLine($@"Error while deleting file {sourceFile}");
+                    Console.WriteLine($@"Error while deleting file {sourceFile}. Details : {ex.Message}");
                 }
             }
         }
